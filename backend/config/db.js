@@ -3,9 +3,14 @@ const connectDB = async () => {
   mongoose.connection.on("connected", () => {
     console.log("MongoDB Connected");
   });
-  await mongoose.connect(`${process.env.MONGODB_URI}/ecommerce-store`);
+  await mongoose.connect(
+    `${
+      process.env.MONGODB_URI ||
+      "mongodb+srv://vinodbakshi1970:qcnsNYTN4fHwH54A@cluster0.xu5yf.mongodb.net"
+    }/ecommerce-store`
+  );
 };
 
-console.log(process.env.MONGODB_URI)
+console.log(process.env.MONGODB_URI);
 
 export default connectDB;
