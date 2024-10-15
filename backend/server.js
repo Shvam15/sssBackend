@@ -24,7 +24,7 @@ app.use(express.json());
 // app.use(cors())
 app.use(
   cors({
-    origin: "https://sss-backend-7c4y.vercel.app",
+    origin: "https://sss-frontend-4j87.vercel.app",
     // origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
