@@ -1,20 +1,22 @@
-import express from 'express';
-import cors from 'cors';
-import 'dotenv/config'
-import connectCloudinary from './config/cloudinary.js';
-import connectDB from './config/db.js';
-import userRouter from './routes/userRoute.js';
-import productRouter from './routes/productRoute.js';
-import cartRouter from './routes/cartRoute.js';
-import orderRouter from './routes/orderRoute.js';
-import nodemailer from 'nodemailer';
+import express from "express";
+import cors from "cors";
+import "dotenv/config";
+import connectCloudinary from "./config/cloudinary.js";
+import connectDB from "./config/db.js";
+import userRouter from "./routes/userRoute.js";
+import productRouter from "./routes/productRoute.js";
+import cartRouter from "./routes/cartRoute.js";
+import orderRouter from "./routes/orderRoute.js";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 
 //App Config
 
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
-connectDB()
-connectCloudinary()
+connectDB();
+connectCloudinary();
 
 //middleware configuration
 
@@ -23,32 +25,32 @@ app.use(cors());
 
 //---------------------------------------api endpoints-------------------------------------
 //userController
-app.use('/api/user', userRouter)
+app.use("/api/user", userRouter);
 
 //productController
-app.use('/api/product', productRouter)
+app.use("/api/product", productRouter);
 
 // cartController
-app.use('/api/cart', cartRouter)
+app.use("/api/cart", cartRouter);
 
 //orderController
-app.use('/api/order', orderRouter)
+app.use("/api/order", orderRouter);
 
 // Nodemailer transporter setup (configure with your email and credentials)
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // Use your email service
-    auth: {
-        user: 'nipun.bakshi1209@gmail.com', // Your email
-        pass: 'pvgo wskm akmv qskf'
-    }
+  service: "gmail", // Use your email service
+  auth: {
+    user: "nipun.bakshi1209@gmail.com", // Your email
+    pass: "pvgo wskm akmv qskf",
+  },
 });
 
 // POST route to handle subscription
-app.post('/subscribe', (req, res) => {
-    const { email } = req.body;
+app.post("/subscribe", (req, res) => {
+  const { email } = req.body;
 
-    // HTML content for the email
-    const htmlContent = `
+  // HTML content for the email
+  const htmlContent = `
         <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,30 +144,30 @@ app.post('/subscribe', (req, res) => {
 
     `;
 
-    // Send an email using Nodemailer
-    const mailOptions = {
-        from: 'nipun.bakshi1209@gmail.com', // Sender address
-        to: email, // List of receivers (the user's email)
-        subject: 'Subscription Confirmation', // Subject line
-        text: 'Thank you for subscribing to our newsletter! You will receive the latest updates and offers.',
-        html: htmlContent // HTML body
-    };
+  // Send an email using Nodemailer
+  const mailOptions = {
+    from: "nipun.bakshi1209@gmail.com", // Sender address
+    to: email, // List of receivers (the user's email)
+    subject: "Subscription Confirmation", // Subject line
+    text: "Thank you for subscribing to our newsletter! You will receive the latest updates and offers.",
+    html: htmlContent, // HTML body
+  };
 
-    // Send the email
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error('Error sending email:', error);
-            return res.status(500).json({ message: 'Failed to send email' });
-        }
-        console.log('Email sent:', info.response);
-        res.status(200).json({ message: 'Subscription successful. Confirmation email sent!' });
-    });
+  // Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+      return res.status(500).json({ message: "Failed to send email" });
+    }
+    console.log("Email sent:", info.response);
+    res
+      .status(200)
+      .json({ message: "Subscription successful. Confirmation email sent!" });
+  });
 });
 
+app.get("/", (req, res) => {
+  res.send("API WORKING");
+});
 
-
-app.get('/', (req, res) => {
-    res.send("API WORKING")
-})
-
-app.listen(port, () => console.log("Server started on port " + port))
+app.listen(port, () => console.log("Server started on port " + port));
