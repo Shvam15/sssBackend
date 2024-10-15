@@ -8,9 +8,11 @@ import razorpay from 'razorpay'
 
 //gateway initialize
 const razorpayInstance = new razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID ||  "rzp_test_qeuXdVkQfgPPe3",
+    key_id: process.env.RAZORPAY_KEY_ID ,
     key_secret: process.env.RAZORPAY_SECRET_KEY || "Eh21oX8hyVpVYsuIHwLy0cR4",
 })
+console.log(process.env.RAZORPAY_KEY_ID)
+console.log(process.env.RAZORPAY_SECRET_KEY)
 
 // placing orders using COD
 const placeOrder = async (req, res) => {
