@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 
 //create token
-return jwt.sign({ id }, "shipshop")
 const createToken = (id) => {
+    return jwt.sign({ id }, "shipshop")
 }
 
 // Route for User Login
